@@ -3,7 +3,6 @@ const config = require("config");
 const fs = require("fs");
 const path = require("path");
 
-const date = new Date();
 const rootDir = path.join(__dirname, "../");
 const logLevel = config.logLevel;
 
@@ -17,19 +16,25 @@ const writeErrorLogStream = fs.createWriteStream(
 );
 
 const info = (fileName, message) => {
-  writeInfoLogStream.write(`${date.toISOString()}: ${message}\n`);
+  writeInfoLogStream.write(
+    `${new Date().toISOString()}: ${fileName} - ${message}\n`
+  );
   if (logLevel !== "info") return;
   console.log(`${fileName} ${message}`);
 };
 
 const warn = (fileName, message) => {
-  writeErrorLogStream.write(`${date.toISOString()}: ${message}\n`);
+  writeErrorLogStream.write(
+    `${new Date().toISOString()}: ${fileName} - ${message}\n`
+  );
   if (logLevel === "error") return;
   console.error(`${fileName} ${message}`);
 };
 
 const error = (fileName, message) => {
-  writeErrorLogStream.write(`${date.toISOString()}: ${message}\n`);
+  writeErrorLogStream.write(
+    `${new Date().toISOString()}: ${fileName} - ${message}\n`
+  );
   console.error(`${fileName} ${message}`);
 };
 
