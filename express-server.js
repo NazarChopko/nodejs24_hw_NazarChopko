@@ -5,8 +5,8 @@ const morgan = require("morgan");
 const rfs = require("rotating-file-stream");
 const path = require("path");
 
-const rootRouter = require("./routes/index");
-const { generator } = require("./helpers/helpers");
+const rootRouter = require("./routes");
+const { fileDateGenerator } = require("./helpers/helpers");
 const { info } = require("./utils/logger")("express-server:");
 
 const app = express();
@@ -14,7 +14,7 @@ const router = express.Router();
 const morganLogFormat = ":date :method :url :status";
 const morganConsoleLogger = morgan(morganLogFormat);
 
-const accessLogStream = rfs.createStream(generator, {
+const accessLogStream = rfs.createStream(fileDateGenerator, {
   interval: "1d",
   path: path.join(__dirname, "logs"),
 });
