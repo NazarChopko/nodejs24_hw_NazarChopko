@@ -1,0 +1,12 @@
+extends layout
+
+block head_content 
+    link(rel="stylesheet" href="/userList.css")
+block body_content
+    .wrapper
+        h2.title User list
+        .content 
+            each user in locals.users
+                .item_content 
+                    p= user.name
+                    p= user.age
