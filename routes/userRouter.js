@@ -3,9 +3,19 @@ const {
   checkUserParams,
 } = require("../middlewares/users-middelware");
 
+const { getAllUsers } = require("../services/user.service");
+
 const userRouter = (rootPath, router) => {
-  router.get(rootPath, (req, res) => {
-    res.status(200).json([]);
+  router.get(rootPath, (req, res, next) => {
+    try {
+      const users = getAllUsers();
+      if (!users) {
+        return next({ status: 404, message: "Users list is empty!" });
+      }
+      res.status(200).json(users);
+    } catch (e) {
+      return next({ status: 500, message: "Internal server error" });
+    }
   });
 
   router.get(`${rootPath}/:userId`, checkUserParams, (req, res) => {
